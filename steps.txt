@@ -1,0 +1,118 @@
+1.considering all points (except nans) in pt1 and and pt2.
+create model based on pt1 and predict pt2
+SVM KERNEL LINEAR ACCURACY C3 GAMMA1 IS:  90.1603498542274
+(0.8606356968215159, 0.8186046511627907, 0.8390941597139451, None)
+cross_validation_results=cross_validate(model,X_pt2,Y_pt2,cv=10,return_train_score=True)
+
+   TestScore  TrainScore
+0   0.884058    0.926256
+1   0.934783    0.919773
+2   0.919708    0.917409
+3   0.912409    0.920648
+4   0.883212    0.926316
+5   0.875912    0.922267
+6   0.963504    0.919838
+7   0.919708    0.914980
+8   0.897810    0.925506
+9   0.912409    0.922267
+
+
+
+
+
+2.take both patient data and cross validate:
+(0.875, 0.8115942028985508, 0.8421052631578948, None)
+SVM KERNEL LINEAR ACCURACY C3 GAMMA1 IS:  90.92872570194385
+
+
+
+3. discard statistical features and considering all points (except nans) in pt1 and and pt2.
+create model based on pt1 and predict pt2 
+accuracy is very low:82
+fscores are :77, 63,70
+
+
+
+
+
+
+
+4. discard statistical features and take both patient data and cross validate:
+SVM KERNEL LINEAR ACCURACY C3 GAMMA1 IS:  82.07343412526998
+Out[24]: (0.7165354330708661, 0.6594202898550725, 0.6867924528301887, None)
+
+
+
+
+5. balance data in pt1 only considering all points (except nans) in pt1 and all points (except nans) pt2.
+create model based on pt1 and predict pt2
+
+
+
+
+6. balance data in pt1 and pt2 and cross validate (combine both)
+
+
+
+
+7. discard statistical features and considering all points (except nans) in pt1 and and pt2, (balance data in pt1)
+create model based on pt1 and predict pt2
+
+
+
+
+8. discard statistical features and take both patient data and cross validate with balanced data:
+
+
+
+
+
+pt2 meal data:430
+pt2 no meal data: 942
+s
+pt1 meal data: 276
+pt1 no meal data: 663
+
+
+pt1 model:
+	SVM KERNEL LINEAR ACCURACY C3 GAMMA1 IS:  90.1603498542274
+
+	precision_recall_fscore_support(Y_pt2, Y_pred, average='binary',pos_label=1)
+	Out[189]: (0.8606356968215159, 0.8186046511627907, 0.8390941597139451, None)
+
+	precision_recall_fscore_support(Y_pt2, Y_pred, average='binary',pos_label=0)
+	Out[190]: (0.9190031152647975, 0.9394904458598726, 0.9291338582677166, None)
+	pt2 meal prediction: 81%
+	pt2 no meal prediction: 93%
+
+pt2 model: 
+	pt1 meal: 87%
+	pt1 no meal: 81%
+	SVM KERNEL LINEAR ACCURACY C1 GAMMA1 IS:  87.43343982960596
+	
+	precision_recall_fscore_support(Y_pt1, Y_pred, average='binary',pos_label=0)
+	Out[194]: (0.9037037037037037, 0.9200603318250377, 0.9118086696562032, None)
+	precision_recall_fscore_support(Y_pt1, Y_pred, average='binary',pos_label=1)
+	Out[195]: (0.7992424242424242, 0.7644927536231884, 0.7814814814814814, None)
+
+
+
+
+
+C=.1,gamma=1
+90.45189504373178
+(0.9228362877997914, 0.9394904458598726, 0.9310889005786428, None)
+(0.8619854721549637, 0.827906976744186, 0.8446026097271648, None)
+
+C=.01,gamma=0.1
+90.59766763848397
+(0.922996878251821, 0.9416135881104034, 0.932212296374146, None)
+(0.8661800486618005, 0.827906976744186, 0.8466111771700356, None)
+
+
+C=.001,gamma=.1
+90.52478134110787
+(0.9237995824634656, 0.9394904458598726, 0.9315789473684211, None)
+(0.8623188405797102, 0.8302325581395349, 0.8459715639810427, None)
+
+
