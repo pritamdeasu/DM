@@ -11,7 +11,7 @@ from datetime import timedelta
 import math
 import numpy as np
 from sklearn.model_selection import  train_test_split
-from sklearn.externals import joblib 
+import joblib 
 from sklearn import svm
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import precision_recall_fscore_support
@@ -33,6 +33,10 @@ cgm_diff = test_data_matrix.max(axis=1) - test_data_matrix.min(axis=1)
 meal_data_v = test_data_matrix.diff(axis=1)
 v_max = meal_data_v.max(axis=1)
 t_vmax = meal_data_v.idxmax(axis=1)*5
+
+meal_data_v2=meal_data_v.diff(axis=1)
+v2_max=meal_data_v2.max(axis=1)
+t_v2max=meal_data_v2.idxmax(axis=1)*5
 
 ##FEATURE 4: powers
 x_array = test_data_matrix.to_numpy()
@@ -81,12 +85,12 @@ dfd3=pd.DataFrame(d3)
 
 
 ##concatenating the features:
-test_feature_matrix = pd.concat([tmax_tm,cgm_diff,v_max,t_vmax],axis=1,ignore_index=True)
+test_feature_matrix = pd.concat([tmax_tm,cgm_diff,v_max,t_vmax,v2_max,t_v2max],axis=1,ignore_index=True)
 test_feature_matrix.reset_index(inplace=True)  
 test_feature_matrix = pd.concat([test_feature_matrix,dff1,dff2,dfm1,dfm2,dfm3,dfd1,dfd2,dfd3],axis=1)  
 test_feature_matrix.drop(columns='index',inplace=True)
 
-model_from_job = joblib.load('DMpt1.pkl')
+model_from_job = joblib.load('DMpt2.pkl')
 
 Y_pred = model_from_job.predict(test_feature_matrix)
 

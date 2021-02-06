@@ -13,8 +13,8 @@ from sklearn.model_selection import  train_test_split
 import joblib
 
 def meal_NoMeal_Data_Extract(file_path_insulin,file_path_cgm):
-    df_insulin=pd.read_excel(file_path_insulin,parse_dates=[['Date', 'Time']],keep_date_col=True) # read insulin data and copy it to a dataframe
-    df_cgm=pd.read_excel(file_path_cgm,parse_dates=[['Date', 'Time']],keep_date_col=True)
+    df_insulin=pd.read_csv(file_path_insulin,parse_dates=[['Date', 'Time']],keep_date_col=True) # read insulin data and copy it to a dataframe
+    df_cgm=pd.read_csv(file_path_cgm,parse_dates=[['Date', 'Time']],keep_date_col=True)
     #copy the non NaN carb input to another dataframe
     df_insulin_meal = df_insulin[df_insulin[['BWZ Carb Input (grams)']].notnull().all(1)]
     #taking non nan and non zero values only of column Y
@@ -83,7 +83,7 @@ def meal_NoMeal_Data_Extract(file_path_insulin,file_path_cgm):
     df_insulin_meal.set_index('index',inplace=True)   
     df_insulin_meal=df_insulin_meal[df_insulin_meal['Meal/No Meal']==1]
     df_insulin_meal.reset_index(inplace=True)
-    df_cgm=pd.read_excel(file_path_cgm,parse_dates=[['Date', 'Time']],keep_date_col=True)
+    #df_cgm=pd.read_excel(file_path_cgm,parse_dates=[['Date', 'Time']],keep_date_col=True)
 
     max_index_insulin_meal = max(df_insulin_meal.index)
     max_index_cgm=max(df_cgm.index)
@@ -434,13 +434,13 @@ from sklearn.metrics import precision_recall_fscore_support
 from sklearn.model_selection import cross_val_score,cross_validate
 
 svm.SVC()
-model=svm.SVC(kernel='linear',C=.01,gamma=0.1) #svc for classification: kernel linear performance of C=.1 is best so far
+model=svm.SVC(kernel='linear',C=.1,gamma=1) #svc for classification: kernel linear performance of C=.1 is best so far
 sv=model.fit(X_pt2,Y_pt2)
-joblib.dump(sv,'DMpt1.pkl')
+joblib.dump(sv,'DMpt2.pkl')
 
-model_from_job = joblib.load('DMpt1.pkl')
+model_from_job = joblib.load('DMpt2.pkl')
 
-Y_pred = model_from_job.predict(X_pt2)
+Y_pred = model_from_job.predict(X_pt1)
 
 Y_pred = sv.predict(X_pt1)
 acc_score=accuracy_score(Y_pt1,Y_pred)
@@ -460,10 +460,10 @@ param_grid = {'C': [0.1, .01, .001, .0001, 1],
 
 
 clf=GridSearchCV(svm.SVC(),param_grid,cv=5)
-clf.fit(X_pt1,Y_pt1)
+clf.fit(X_pt2,Y_pt2)
 clf.best_params_
 clf.cv_results_
-clf.best_estimator_
+clf.best_estimator_ 
 
 cross_validation_results=cross_validate(model,X_pt2,Y_pt2,cv=10,return_train_score=True)
 pd.DataFrame(cross_validation_results).test_score.mean()
